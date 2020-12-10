@@ -4,6 +4,5 @@
 int main(int argc, char* argv[]){
     QApplication a (argc, argv);
     ConnectWindow connectWindow;
-    connectWindow.show();
     return QApplication::exec();
 }

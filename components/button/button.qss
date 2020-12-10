@@ -1,0 +1,4 @@
+.common-button{
+  border-radius: 10px;
+  background: white;
+}
