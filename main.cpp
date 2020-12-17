@@ -1,8 +1,10 @@
 #include <QApplication>
-#include "windows/connect/connect.h"
+#include "windows/chief/chief.h"
 
 int main(int argc, char* argv[]){
     QApplication a (argc, argv);
-    ConnectWindow connectWindow;
-    return QApplication::exec();
+    Chief* chief = new Chief();
+    int status = QApplication::exec();
+    printf("Application exit with code(%d)\n", status);
+    return status;
 }

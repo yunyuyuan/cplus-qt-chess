@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 class ConnectWindow: public QWidget {
+Q_OBJECT
 public:
     Button* tab_create;
     Button* tab_join;
@@ -29,7 +30,7 @@ public:
     bool is_create = true;
     int sock, client_sock = 0;
     QString input_ip_text;
-    uint16_t input_port_text;
+    int input_port_text;
 
     void setupUi();
     explicit ConnectWindow();
@@ -40,35 +41,37 @@ private:
     void parseIp();
 
     void doConnect();
-    void status_change(const char*);
-    void server_finish(int, int);
-    void client_finish(int);
+    void status_change(const char*) const;
+    void server_finish(int, int,  char*);
+    void client_finish(int,  char*);
     void cancelConnect();
+signals:
+    void open_window(int, char*, char*);
 };
 
 // ********** worker **********
 class ServerWorker : public QThread{
 Q_OBJECT
 public:
-    uint16_t input_port_text;
-    const char* input_nick;
-    ServerWorker(uint16_t, const char*);
+    int input_port_text;
+    QString input_nick;
+    ServerWorker(int, const QString&);
     void run() override;
 signals:
-    void statusChange(const char* str);
-    void resultReady(const int sock, const int client);
+    void statusChange(const char*);
+    void resultReady(int, int, char*);
 };
 
 class ClientWorker : public QThread{
 Q_OBJECT
 public:
-    uint16_t input_port_text;
-    const char* input_ip_text;
-    const char* input_nick;
-    ClientWorker(uint16_t, const char*, const char*);
+    int input_port_text;
+    QString input_nick;
+    QString input_ip_text;
+    ClientWorker(int, const QString&, const QString&);
     void run() override;
 signals:
-    void statusChange(const char* str);
-    void resultReady(const int sock);
+    void statusChange(const char*);
+    void resultReady(int, char*);
 };
 
