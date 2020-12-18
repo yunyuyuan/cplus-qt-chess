@@ -1,3 +1,5 @@
 cmake-build-debug
 .idea
 test
+.sass-cache
+*.css.map

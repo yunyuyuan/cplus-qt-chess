@@ -46,7 +46,7 @@ private:
     void client_finish(int,  char*);
     void cancelConnect();
 signals:
-    void open_window(int, char*, char*);
+    void open_window(int, char*, char*, bool);
 };
 
 // ********** worker **********

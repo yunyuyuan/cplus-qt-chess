@@ -10,5 +10,5 @@ public:
 
 public slots:
     void do_open_connect_window();
-    void do_open_game_window(int sock, char* myName, char* otherName);
+    void do_open_game_window(int, char*, char*, bool);
 };

@@ -79,7 +79,7 @@ void ConnectWindow::server_finish(int sock_, int client_sock_, char* nick) {
         status->setText("创建失败");
     }else{
         status->setText(QString("创建成功,对方昵称: ")+nick);
-        emit open_window(sock_, const_cast<char *>(input_nick->text().toStdString().c_str()), nick);
+        emit open_window(sock_, const_cast<char *>(input_nick->text().toStdString().c_str()), nick, true);
     }
     if (sock == 0){
     }
@@ -91,7 +91,7 @@ void ConnectWindow::client_finish(int sock_, char* nick) {
         status->setText("加入失败");
     }else{
         status->setText(QString("加入成功,对方昵称: ")+nick);
-        emit open_window(sock_, const_cast<char *>(input_nick->text().toStdString().c_str()), nick);
+        emit open_window(sock_, const_cast<char *>(input_nick->text().toStdString().c_str()), nick, false);
     }
     connecting = false;
 }
