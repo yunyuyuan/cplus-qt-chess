@@ -1,3 +1,6 @@
+#ifndef CONNECT_HEAD
+#define CONNECT_HEAD
+
 #include <QtWidgets/QWidget>
 #include <QObject>
 #include <QtWidgets/QPushButton>
@@ -7,6 +10,8 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/Qt>
 #include <QtCore/QThread>
+#include <QTcpSocket>
+#include <QTcpServer>
 #include "../../components/button/button.h"
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -28,12 +33,14 @@ public:
 
     bool connecting = false;
     bool is_create = true;
-    int sock, client_sock = 0;
+    QTcpServer* tcp_server;
+    QTcpSocket* tcp_socket;
     QString input_ip_text;
     int input_port_text;
 
     void setupUi();
-    explicit ConnectWindow();
+    ConnectWindow();
+    ~ConnectWindow();
 
 private:
     void switchToCreate();
@@ -41,37 +48,10 @@ private:
     void parseIp();
 
     void doConnect();
-    void status_change(const char*) const;
-    void server_finish(int, int,  char*);
-    void client_finish(int,  char*);
+    void new_client();
     void cancelConnect();
 signals:
-    void open_window(int, char*, char*, bool);
+    void open_window(QTcpSocket*, bool);
 };
 
-// ********** worker **********
-class ServerWorker : public QThread{
-Q_OBJECT
-public:
-    int input_port_text;
-    QString input_nick;
-    ServerWorker(int, const QString&);
-    void run() override;
-signals:
-    void statusChange(const char*);
-    void resultReady(int, int, char*);
-};
-
-class ClientWorker : public QThread{
-Q_OBJECT
-public:
-    int input_port_text;
-    QString input_nick;
-    QString input_ip_text;
-    ClientWorker(int, const QString&, const QString&);
-    void run() override;
-signals:
-    void statusChange(const char*);
-    void resultReady(int, char*);
-};
-
+#endif

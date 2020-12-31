@@ -1,3 +1,6 @@
+#ifndef GAME_HEAD
+#define GAME_HEAD
+
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QLabel>
@@ -15,12 +18,15 @@ public:
     QLabel* my_name;
     QLabel* other_name;
 
-    int sock;
+    QTcpSocket* socket;
     bool turn_on;
 
-    explicit GameWindow();
+    GameWindow();
     void setupUi();
-    void initInfo(int, char*, char*, bool);
+    void initInfo(QTcpSocket*, bool);
 signals:
     void open_window();
 };
+
+
+#endif

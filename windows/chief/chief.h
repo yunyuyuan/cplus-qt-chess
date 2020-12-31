@@ -1,14 +1,18 @@
+#ifndef CHIEF_HEAD
+#define CHIEF_HEAD
+
 #include "../connect/connect.h"
 #include "../game/game.h"
 
 class Chief: public QObject{
 public:
+    explicit Chief();
+
     ConnectWindow* connectWindow;
     GameWindow* gameWindow;
 
-    explicit Chief();
-
 public slots:
     void do_open_connect_window();
-    void do_open_game_window(int, char*, char*, bool);
+    void do_open_game_window(QTcpSocket*, bool);
 };
+#endif

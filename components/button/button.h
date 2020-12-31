@@ -1,3 +1,6 @@
+#ifndef BUTTON_HEAD
+#define BUTTON_HEAD
+
 #include <QPushButton>
 #include "../utils.h"
 
@@ -10,3 +13,6 @@ public:
 
     const QString &get_qss(const char string[11]);
 };
+
+
+#endif

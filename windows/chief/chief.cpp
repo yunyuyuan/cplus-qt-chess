@@ -13,8 +13,8 @@ void Chief::do_open_connect_window() {
     connectWindow->show();
 }
 
-void Chief::do_open_game_window(int sock, char *my_name, char *other_name, bool turn_on) {
-    gameWindow->initInfo(sock, my_name, other_name, turn_on);
+void Chief::do_open_game_window(QTcpSocket* socket, bool turn_on) {
+    gameWindow->initInfo(socket, turn_on);
     gameWindow->show();
     // 打开游戏窗口时自动关闭连接窗口
     connectWindow->hide();

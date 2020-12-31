@@ -1,3 +1,4 @@
+#include <QtNetwork/QTcpServer>
 #include "game.h"
 
 GameWindow::GameWindow() {
@@ -30,9 +31,8 @@ void GameWindow::setupUi() {
     this->setStyleSheet(utils::get_qss("../windows/game/game.css").c_str());
 }
 
-void GameWindow::initInfo(int a, char *b, char *c, bool d) {
-    sock = a;
-    my_name->setText(b);
-    other_name->setText(c);
-    turn_on = d;
+void GameWindow::initInfo(QTcpSocket* socket_, bool b) {
+    socket = socket_;
+    turn_on = b;
+    // 发送/接受昵称
 }
