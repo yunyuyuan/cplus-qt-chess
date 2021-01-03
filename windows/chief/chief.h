@@ -13,6 +13,6 @@ public:
 
 public slots:
     void do_open_connect_window();
-    void do_open_game_window(QTcpSocket*, bool);
+    void do_open_game_window(QTcpSocket*, const QString&, bool);
 };
 #endif

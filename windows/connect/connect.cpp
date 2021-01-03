@@ -41,7 +41,7 @@ ConnectWindow::~ConnectWindow() {
     try{
         tcp_server->close();
         tcp_socket->close();
-    } catch (error_t) {}
+    } catch (int) {}
 }
 
 void ConnectWindow::switchToCreate() {
@@ -75,7 +75,7 @@ void ConnectWindow::doConnect() {
         tcp_socket->connectToHost(QHostAddress(input_ip_text), input_port_text);
         if(tcp_socket->waitForConnected()){
             status->setText("加入成功!");
-            emit open_window(tcp_socket, false);
+            emit open_window(tcp_socket, input_nick->text(), false);
         }else{
             status->setText(QString("出错了:") + tcp_socket->errorString());
         }
@@ -85,7 +85,7 @@ void ConnectWindow::doConnect() {
 void ConnectWindow::new_client() {
     tcp_socket = tcp_server->nextPendingConnection();
     status->setText("玩家已加入!");
-    emit open_window(tcp_socket, true);
+    emit open_window(tcp_socket, input_nick->text(), true);
 }
 
 void ConnectWindow::cancelConnect() {

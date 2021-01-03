@@ -13,11 +13,6 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 #include "../../components/button/button.h"
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 
 class ConnectWindow: public QWidget {
 Q_OBJECT
@@ -43,15 +38,18 @@ public:
     ~ConnectWindow();
 
 private:
+    void parseIp();
+
+signals:
+    void open_window(QTcpSocket*, QString, bool);
+private slots:
     void switchToCreate();
     void switchToJoin();
-    void parseIp();
 
     void doConnect();
     void new_client();
     void cancelConnect();
-signals:
-    void open_window(QTcpSocket*, bool);
+
 };
 
 #endif

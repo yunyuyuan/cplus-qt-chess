@@ -2,6 +2,7 @@
 #include "game.h"
 
 GameWindow::GameWindow() {
+    initing = true;
     this->setupUi();
 }
 
@@ -31,8 +32,34 @@ void GameWindow::setupUi() {
     this->setStyleSheet(utils::get_qss("../windows/game/game.css").c_str());
 }
 
-void GameWindow::initInfo(QTcpSocket* socket_, bool b) {
+void GameWindow::initInfo(QTcpSocket* socket_, const QString& nick_, bool turn_on_) {
     socket = socket_;
-    turn_on = b;
+    auto nick = nick_.toStdString().c_str();
+    my_name->setText(nick);
+    turn_on = turn_on_;
+    connect(socket, &QTcpSocket::readyRead, this, &GameWindow::recvMsg);
     // 发送/接受昵称
+    if (turn_on){
+        // 如果是主机就先发送
+        sendMsg(nick);
+    }else{
+        // 客机
+    }
+}
+
+void GameWindow::sendMsg(const char* s) {
+    socket->write(s);
+}
+
+void GameWindow::recvMsg() {
+    QByteArray data = socket->readAll();
+    auto msg = data.toStdString().c_str();
+    if (initing){
+        other_name->setText(msg);
+        if (!turn_on) {
+            sendMsg(my_name->text().toStdString().c_str());
+        }
+    }else{
+
+    }
 }
