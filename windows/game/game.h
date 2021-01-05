@@ -8,17 +8,14 @@
 #include <QVariant>
 #include <QTcpSocket>
 #include "../../components/utils.h"
-
-namespace chess_config {
-    int interval = 40;
-}
+#include "../../components/board/board.h"
 
 class GameWindow : public QWidget{
 Q_OBJECT
 public:
     QFrame* body;
     QFrame* board;
-    QFrame* lines;
+    Board* lines;
 
     QFrame* menu;
     QFrame* menu_mid;
@@ -35,7 +32,6 @@ public:
 
 private:
     void setupUi();
-    void setupLines();
     void putChess();
 signals:
     void open_window();

@@ -1,6 +1,9 @@
 #game{
   >.body{
-    background: #ffc575;
+    background: white;
+    >.board{
+      background: #ffc575;
+    }
   }
   >.menu{
     background: #555555;

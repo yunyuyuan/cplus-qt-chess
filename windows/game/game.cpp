@@ -4,14 +4,14 @@
 GameWindow::GameWindow() {
     initing = true;
     this->setupUi();
+    this->show();
 }
 
 void GameWindow::setupUi() {
     this->setObjectName("game");
     body = new QFrame(this);
     body->setProperty("class", "body");
-    board = new QFrame(body);
-    lines = new QFrame(board);
+    board = new Board(body);
 
     menu = new QFrame(this);
     menu->setProperty("class", "menu");
@@ -32,10 +32,6 @@ void GameWindow::setupUi() {
     this->setLayout(layout);
     this->setGeometry(0, 0, 800, 500);
     this->setStyleSheet(utils::get_qss("../windows/game/game.css").c_str());
-}
-
-void GameWindow::setupLines(){
-
 }
 
 void GameWindow::initInfo(QTcpSocket* socket_, const QString& nick_, bool turn_on_) {

@@ -1,5 +1,7 @@
 #game > .body {
-  background: #ffc575; }
+  background: white; }
+  #game > .body > .board {
+    background: #ffc575; }
 #game > .menu {
   background: #555555; }
 
