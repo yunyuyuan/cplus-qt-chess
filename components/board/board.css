@@ -4,5 +4,9 @@
     border: 1px solid black; }
     #board > .chess[candidate=t] {
       border: 1px dotted black; }
+    #board > .chess[color=white] {
+      background: white; }
+    #board > .chess[color=black] {
+      background: black; }
 
 /*# sourceMappingURL=board.css.map */

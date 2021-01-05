@@ -21,10 +21,13 @@ public:
     int min_pos;
     int max_pos;
     bool turn_on;
+    const char* my_color;
+    const char* other_color;
     QPoint candidate_pos;
     Chess* candidate;
-    QVector<QPoint> list;
-    void recv_chess(QPoint pos);
+    QVector<QPoint> pos_list;
+    QVector<Chess*> chess_list;
+    void recv_chess(QPoint, bool);
 signals:
     void put_chess(int, int);
 

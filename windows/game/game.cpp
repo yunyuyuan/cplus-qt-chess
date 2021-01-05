@@ -42,8 +42,13 @@ void GameWindow::initInfo(QTcpSocket* socket_, const QString& nick_, bool turn_o
     connect(socket, &QTcpSocket::readyRead, this, &GameWindow::recvMsg);
     connect(board, &Board::put_chess, this, &GameWindow::putChess);
     if (turn_on){
+        board->my_color = "black";
+        board->other_color = "white";
         // 如果是主机就先发送昵称
         socket->write(nick);
+    }else{
+        board->my_color = "white";
+        board->other_color = "black";
     }
 }
 
@@ -52,7 +57,7 @@ void GameWindow::putChess(int x, int y) {
     char s[100];
     sprintf(s, "%d,%d", x, y);
     socket->write(s);
-    board->recv_chess(QPoint(x, y));
+    board->recv_chess(QPoint(x, y), true);
     turn_on = false;
     board->turn_on = turn_on;
 }
@@ -71,7 +76,7 @@ void GameWindow::recvMsg() {
         int mid = std_str.find(',');
         int x = std::stoi(std_str.substr(0, mid));
         int y = std::stoi(std_str.substr(mid+1));
-        board->recv_chess(QPoint(x, y));
+        board->recv_chess(QPoint(x, y), false);
         turn_on = true;
         board->turn_on = turn_on;
     }

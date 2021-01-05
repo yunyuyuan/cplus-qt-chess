@@ -46,11 +46,13 @@ void Board::leaveEvent(QEvent *event) {
     }
 }
 
-void Board::recv_chess(QPoint pos){
+void Board::recv_chess(QPoint pos, bool is_me){
     auto new_chess = new Chess(this);
+    new_chess->setProperty("color", is_me?my_color:other_color);
     move_chess(new_chess, pos.x(), pos.y());
     new_chess->show();
-    list.append(pos);
+    pos_list.append(pos);
+    chess_list.append(new_chess);
     this->setStyleSheet(get_qss("../components/board/board.css").c_str());
 }
 
