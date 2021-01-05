@@ -7,6 +7,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QVariant>
 #include <QTcpSocket>
+#include <iostream>
 #include "../../components/utils.h"
 #include "../../components/board/board.h"
 
@@ -14,8 +15,7 @@ class GameWindow : public QWidget{
 Q_OBJECT
 public:
     QFrame* body;
-    QFrame* board;
-    Board* lines;
+    Board* board;
 
     QFrame* menu;
     QFrame* menu_mid;
@@ -32,7 +32,7 @@ public:
 
 private:
     void setupUi();
-    void putChess();
+    void putChess(int, int);
 signals:
     void open_window();
 private slots:

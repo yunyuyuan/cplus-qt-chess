@@ -2,6 +2,10 @@
 
 using namespace utils;
 
+static void move_chess (Chess* chess, int x, int y){
+    chess->move(interval*x+blank_size-interval/2, interval*y+blank_size-interval/2);
+}
+
 void Board::paintEvent(QPaintEvent* e) {
     // 画线
     QPainter painter(this);
@@ -16,6 +20,7 @@ void Board::paintEvent(QPaintEvent* e) {
 }
 
 void Board::mouseMoveEvent(QMouseEvent* e) {
+    if (!turn_on) return;
     int x = e->x();
     int y = e->y();
     // 是否在范围内
@@ -26,12 +31,13 @@ void Board::mouseMoveEvent(QMouseEvent* e) {
         if (candidate->isHidden()){
             candidate->show();
         }
-        candidate->move(interval*candidate_pos.x()+blank_size-interval/2, interval*candidate_pos.y()+blank_size-interval/2);
+        move_chess(candidate, candidate_pos.x(), candidate_pos.y());
     }
 }
 
-void Board::mouseReleaseEvent(QMouseEvent *event) {
-
+void Board::mouseReleaseEvent(QMouseEvent* e) {
+    if (!turn_on || e->button() != Qt::LeftButton) return;
+    emit put_chess(candidate_pos.x(), candidate_pos.y());
 }
 
 void Board::leaveEvent(QEvent *event) {
@@ -40,16 +46,25 @@ void Board::leaveEvent(QEvent *event) {
     }
 }
 
+void Board::recv_chess(QPoint pos){
+    auto new_chess = new Chess(this);
+    move_chess(new_chess, pos.x(), pos.y());
+    new_chess->show();
+    list.append(pos);
+    this->setStyleSheet(get_qss("../components/board/board.css").c_str());
+}
+
 Board::Board(QWidget *parent):QFrame(parent) {
-    this->setProperty("class", QVariant("board"));
+    this->setObjectName("board");
     auto size = (lines_count+1)*blank_size;
     this->setFixedSize(size, size);
+    turn_on = false;
     min_pos = blank_size - interval/2;
     max_pos = size - min_pos;
     this->setMouseTracking(true);
 
-    candidate = new QLabel(this);
-    candidate->setFixedSize(interval, interval);
-    candidate->setStyleSheet("QLabel{background: red}");
+    candidate = new Chess(this);
     candidate->hide();
+    candidate->setProperty("candidate", QVariant("t"));
+    this->setStyleSheet(get_qss("../components/board/board.css").c_str());
 }

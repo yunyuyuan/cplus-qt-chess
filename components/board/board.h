@@ -8,8 +8,10 @@
 #include <QMouseEvent>
 #include <QtWidgets/QLabel>
 #include "../utils.h"
+#include "../chess/chess.h"
 
 class Board: public QFrame{
+Q_OBJECT
     void paintEvent(QPaintEvent *) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -18,8 +20,14 @@ public:
     explicit Board(QWidget* parent = nullptr);
     int min_pos;
     int max_pos;
+    bool turn_on;
     QPoint candidate_pos;
-    QLabel* candidate;
+    Chess* candidate;
+    QVector<QPoint> list;
+    void recv_chess(QPoint pos);
+signals:
+    void put_chess(int, int);
+
 };
 
 #endif //C_BOARD_H

@@ -4,7 +4,6 @@
 GameWindow::GameWindow() {
     initing = true;
     this->setupUi();
-    this->show();
 }
 
 void GameWindow::setupUi() {
@@ -39,27 +38,41 @@ void GameWindow::initInfo(QTcpSocket* socket_, const QString& nick_, bool turn_o
     auto nick = nick_.toStdString().c_str();
     my_name->setText(nick);
     turn_on = turn_on_;
+    board->turn_on = turn_on;
     connect(socket, &QTcpSocket::readyRead, this, &GameWindow::recvMsg);
+    connect(board, &Board::put_chess, this, &GameWindow::putChess);
     if (turn_on){
         // 如果是主机就先发送昵称
         socket->write(nick);
     }
 }
 
-void GameWindow::putChess() {
+void GameWindow::putChess(int x, int y) {
     if (!turn_on) return;
+    char s[100];
+    sprintf(s, "%d,%d", x, y);
+    socket->write(s);
+    board->recv_chess(QPoint(x, y));
     turn_on = false;
+    board->turn_on = turn_on;
 }
 
 void GameWindow::recvMsg() {
     QByteArray data = socket->readAll();
-    auto msg = data.toStdString().c_str();
+    auto std_str = data.toStdString();
+    auto msg = std_str.c_str();
     if (initing){
         other_name->setText(msg);
         if (!turn_on) {
             socket->write(my_name->text().toStdString().c_str());
         }
+        initing = false;
     }else{
+        int mid = std_str.find(',');
+        int x = std::stoi(std_str.substr(0, mid));
+        int y = std::stoi(std_str.substr(mid+1));
+        board->recv_chess(QPoint(x, y));
         turn_on = true;
+        board->turn_on = turn_on;
     }
 }

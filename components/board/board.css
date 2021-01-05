@@ -1,0 +1,8 @@
+#board {
+  background: #ffc575; }
+  #board > .chess {
+    border: 1px solid black; }
+    #board > .chess[candidate=t] {
+      border: 1px dotted black; }
+
+/*# sourceMappingURL=board.css.map */
