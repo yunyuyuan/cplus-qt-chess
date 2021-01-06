@@ -12,8 +12,9 @@ namespace utils {
         return content;
     }
     static int blank_size = 40;
-    static int lines_count = 15;
-    static int interval = 40;
+    static int lines_count = 8;
+    static int interval = 30;
+    static int win_size = 5;
 }
 
 #endif

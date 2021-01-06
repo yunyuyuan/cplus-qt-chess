@@ -3,7 +3,7 @@
   >.chess{
     border: 1px solid black;
     &[candidate=t]{
-      border: 1px dotted black;
+      border: 2px dotted #0037ff;
     }
     &[color=white]{
       background: white;
@@ -11,5 +11,8 @@
     &[color=black]{
       background: black;
     }
+  }
+  >.dialog{
+    background: rgba(0, 0, 0, 60%);
   }
 }

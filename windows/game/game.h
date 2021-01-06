@@ -7,6 +7,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QVariant>
 #include <QTcpSocket>
+#include <QtNetwork/QTcpServer>
 #include <iostream>
 #include "../../components/utils.h"
 #include "../../components/board/board.h"

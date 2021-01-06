@@ -1,4 +1,3 @@
-#include <QtNetwork/QTcpServer>
 #include "game.h"
 
 GameWindow::GameWindow() {
@@ -11,13 +10,18 @@ void GameWindow::setupUi() {
     body = new QFrame(this);
     body->setProperty("class", "body");
     board = new Board(body);
+    auto body_layout = new QHBoxLayout();
+    body_layout->setSpacing(0);
+    body_layout->setContentsMargins(0, 0, 0, 0);
+    body_layout->addWidget(board);
+    body->setLayout(body_layout);
 
     menu = new QFrame(this);
     menu->setProperty("class", "menu");
     menu->setFixedWidth(100);
-    my_name = new QLabel();
-    other_name = new QLabel();
-    menu_mid = new QFrame();
+    my_name = new QLabel(menu);
+    other_name = new QLabel(menu);
+    menu_mid = new QFrame(menu);
     auto menu_layout = new QVBoxLayout();
     menu_layout->addWidget(other_name);
     menu_layout->addWidget(menu_mid);
@@ -28,8 +32,8 @@ void GameWindow::setupUi() {
     layout->setSpacing(0);
     layout->addWidget(body);
     layout->addWidget(menu);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
     this->setLayout(layout);
-    this->setGeometry(0, 0, 800, 500);
     this->setStyleSheet(utils::get_qss("../windows/game/game.css").c_str());
 }
 

@@ -3,10 +3,12 @@
   #board > .chess {
     border: 1px solid black; }
     #board > .chess[candidate=t] {
-      border: 1px dotted black; }
+      border: 2px dotted #0037ff; }
     #board > .chess[color=white] {
       background: white; }
     #board > .chess[color=black] {
       background: black; }
+  #board > .dialog {
+    background: rgba(0, 0, 0, 0.6); }
 
 /*# sourceMappingURL=board.css.map */
