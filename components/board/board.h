@@ -7,6 +7,7 @@
 #include <QVariant>
 #include <QMouseEvent>
 #include <QtWidgets/QLabel>
+#include <QStyle>
 #include "../utils.h"
 #include "../chess/chess.h"
 
@@ -29,10 +30,9 @@ public:
     Chess* candidate;
     QVector<QPoint> my_pos_list;
     QVector<QPoint> other_pos_list;
-    QVector<Chess*> chess_list;
+    QVector<Chess*> my_chess_list;
+    QVector<Chess*> other_chess_list;
 
-    QFrame* dialog;
-    QLabel* dialog_text;
     void recv_chess(QPoint, bool);
 signals:
     void put_chess(int, int);

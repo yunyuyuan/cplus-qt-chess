@@ -8,7 +8,7 @@
       background: white; }
     #board > .chess[color=black] {
       background: black; }
-  #board > .dialog {
-    background: rgba(0, 0, 0, 0.6); }
+    #board > .chess[active=t] {
+      border: 2px solid #00ffcc; }
 
 /*# sourceMappingURL=board.css.map */

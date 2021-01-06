@@ -89,21 +89,40 @@ void Board::recv_chess(QPoint pos, bool is_me){
     new_chess->show();
     if (is_me){
         my_pos_list.append(point);
+        my_chess_list.append(new_chess);
     }else{
         other_pos_list.append(point);
+        other_chess_list.append(new_chess);
     }
-    chess_list.append(new_chess);
     this->setStyleSheet(get_qss("../components/board/board.css").c_str());
     QVector<QPoint> my_win = check_win(my_pos_list);
+    bool end = false;
     if (!my_win.empty()){
-        game_over = true;
-        dialog->show();
+        end = true;
+        for (QPoint p:my_win){
+            int idx = my_pos_list.indexOf(p);
+            auto chess = my_chess_list.at(idx);
+            chess->setProperty("active", QVariant("t"));
+            chess->style()->unpolish(chess);
+            chess->style()->polish(chess);
+            chess->update();
+        }
     }else {
         QVector<QPoint> other_win = check_win(other_pos_list);
         if (!other_win.empty()) {
-            game_over = true;
-            dialog->show();
+            end = true;
+            for (QPoint p:other_win){
+                int idx = other_pos_list.indexOf(p);
+                auto chess = other_chess_list.at(idx);
+                chess->setProperty("active", QVariant("t"));
+                chess->style()->unpolish(chess);
+                chess->style()->polish(chess);
+                chess->update();
+            }
         }
+    }
+    if (end){
+        game_over = true;
     }
 }
 
@@ -121,10 +140,5 @@ Board::Board(QWidget *parent):QFrame(parent) {
     candidate->hide();
     candidate->setProperty("candidate", QVariant("t"));
 
-    dialog = new QFrame(this);
-    dialog->setFixedSize(size, size);
-    dialog->setProperty("class", QVariant("dialog"));
-    dialog->move(0, 0);
-    dialog->hide();
     this->setStyleSheet(get_qss("../components/board/board.css").c_str());
 }

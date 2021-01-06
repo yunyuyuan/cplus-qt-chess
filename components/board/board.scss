@@ -11,8 +11,8 @@
     &[color=black]{
       background: black;
     }
-  }
-  >.dialog{
-    background: rgba(0, 0, 0, 60%);
+    &[active=t]{
+      border: 2px solid #00ffcc;
+    }
   }
 }
