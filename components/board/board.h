@@ -7,7 +7,6 @@
 #include <QVariant>
 #include <QMouseEvent>
 #include <QtWidgets/QLabel>
-#include <QStyle>
 #include "../utils.h"
 #include "../chess/chess.h"
 

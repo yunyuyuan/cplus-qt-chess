@@ -7,8 +7,8 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QVariant>
 #include <QTcpSocket>
+#include <QTimer>
 #include <QtNetwork/QTcpServer>
-#include <iostream>
 #include "../../components/utils.h"
 #include "../../components/board/board.h"
 
@@ -21,12 +21,18 @@ public:
     QFrame* menu;
     QFrame* menu_mid;
 
+    QFrame* player_me;
     QLabel* my_name;
+    QLabel* my_time;
+    QFrame* player_other;
     QLabel* other_name;
+    QLabel* other_time;
 
     QTcpSocket* socket;
     bool turn_on;
     bool initing;
+    QTimer* timer;
+    int timer_count;
 
     GameWindow();
     void initInfo(QTcpSocket*, const QString&, bool);
@@ -34,6 +40,8 @@ public:
 private:
     void setupUi();
     void putChess(int, int);
+    void changeTurn(bool);
+    void update_timer();
 signals:
     void open_window();
 private slots:

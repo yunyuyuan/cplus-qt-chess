@@ -4,5 +4,20 @@
   }
   >.menu{
     background: #555555;
+    >.player{
+      border: 1px solid white;
+      &[active=t]{
+        border: 2px solid #18ffd3;
+      }
+      >.name{
+
+      }
+      >.time{
+
+      }
+    }
+    >.time{
+
+    }
   }
 }

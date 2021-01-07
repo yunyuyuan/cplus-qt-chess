@@ -1,7 +1,11 @@
 #include "game.h"
 
+using namespace utils;
+
 GameWindow::GameWindow() {
     initing = true;
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &GameWindow::update_timer);
     this->setupUi();
 }
 
@@ -19,13 +23,36 @@ void GameWindow::setupUi() {
     menu = new QFrame(this);
     menu->setProperty("class", "menu");
     menu->setFixedWidth(100);
-    my_name = new QLabel(menu);
-    other_name = new QLabel(menu);
+
+    player_me = new QFrame(menu);
+    player_me->setProperty("class", "player");
+    my_name = new QLabel(player_me);
+    my_name->setProperty("class", "name");
+    my_time = new QLabel(player_me);
+    my_time->setProperty("class", "time");
+    auto player_me_layout = new QVBoxLayout();
+    player_me_layout->addWidget(my_name);
+    player_me_layout->addWidget(my_time);
+    player_me->setLayout(player_me_layout);
+
+    player_other = new QFrame(menu);
+    player_other->setProperty("class", "player");
+    other_name = new QLabel(player_other);
+    other_name->setProperty("class", "name");
+    other_time = new QLabel(player_other);
+    other_time->setProperty("class", "time");
+    auto player_other_layout = new QVBoxLayout();
+    player_other_layout->addWidget(other_name);
+    player_other_layout->addWidget(other_time);
+    player_other->setLayout(player_other_layout);
+
     menu_mid = new QFrame(menu);
+    menu_mid->setProperty("class", "mid");
+
     auto menu_layout = new QVBoxLayout();
-    menu_layout->addWidget(other_name);
+    menu_layout->addWidget(player_other);
     menu_layout->addWidget(menu_mid);
-    menu_layout->addWidget(my_name);
+    menu_layout->addWidget(player_me);
     menu->setLayout(menu_layout);
     auto layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -41,18 +68,18 @@ void GameWindow::initInfo(QTcpSocket* socket_, const QString& nick_, bool turn_o
     socket = socket_;
     auto nick = nick_.toStdString().c_str();
     my_name->setText(nick);
-    turn_on = turn_on_;
-    board->turn_on = turn_on;
     connect(socket, &QTcpSocket::readyRead, this, &GameWindow::recvMsg);
     connect(board, &Board::put_chess, this, &GameWindow::putChess);
-    if (turn_on){
+    if (turn_on_){
         board->my_color = "black";
         board->other_color = "white";
+        this->changeTurn(turn_on_);
         // 如果是主机就先发送昵称
         socket->write(nick);
     }else{
         board->my_color = "white";
         board->other_color = "black";
+        this->changeTurn(turn_on_);
     }
 }
 
@@ -62,9 +89,51 @@ void GameWindow::putChess(int x, int y) {
     sprintf(s, "%d,%d", x, y);
     socket->write(s);
     board->recv_chess(QPoint(x, y), true);
-    turn_on = false;
-    board->turn_on = turn_on;
+    this->changeTurn(false);
 }
+
+void GameWindow::changeTurn(bool b) {
+    turn_on = b;
+    board->turn_on = turn_on;
+    QFrame* active;
+    QFrame* deactive;
+    QLabel* active_time;
+    QLabel* deactive_time;
+    if (b){
+        active = player_me;
+        deactive = player_other;
+        active_time = my_time;
+        deactive_time = other_time;
+    }else{
+        active = player_other;
+        deactive = player_me;
+        active_time = other_time;
+        deactive_time = my_time;
+    }
+    active->setProperty("active", "t");
+    refresh_style(active);
+    deactive->setProperty("active", "f");
+    refresh_style(deactive);
+    if (active_time->isHidden()) {
+        active_time->show();
+        active_time->setText(std::to_string(wait_time).c_str());
+    }
+    if (!deactive_time->isHidden()) {
+        deactive_time->hide();
+        deactive_time->setText("");
+    }
+    timer_count = wait_time;
+    timer->start(1000);
+}
+
+void GameWindow::update_timer() {
+    timer_count --;
+    (turn_on?my_time:other_time)->setText(std::to_string(timer_count).c_str());
+    if (timer_count == 0){
+        delete timer;
+    }
+}
+
 
 void GameWindow::recvMsg() {
     QByteArray data = socket->readAll();
@@ -81,7 +150,6 @@ void GameWindow::recvMsg() {
         int x = std::stoi(std_str.substr(0, mid));
         int y = std::stoi(std_str.substr(mid+1));
         board->recv_chess(QPoint(x, y), false);
-        turn_on = true;
-        board->turn_on = turn_on;
+        this->changeTurn(true);
     }
 }

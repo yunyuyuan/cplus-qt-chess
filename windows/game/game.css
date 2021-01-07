@@ -2,5 +2,9 @@
   background: white; }
 #game > .menu {
   background: #555555; }
+  #game > .menu > .player {
+    border: 1px solid white; }
+    #game > .menu > .player[active=t] {
+      border: 2px solid #18ffd3; }
 
 /*# sourceMappingURL=game.css.map */

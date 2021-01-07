@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <QStyle>
 
 namespace utils {
     static std::string get_qss(const char *filename) {
@@ -11,10 +12,16 @@ namespace utils {
                              (std::istreambuf_iterator<char>()) );
         return content;
     }
+    static void refresh_style(QWidget* widget){
+        widget->style()->unpolish(widget);
+        widget->style()->polish(widget);
+        widget->update();
+    }
     static int blank_size = 40;
     static int lines_count = 8;
     static int interval = 30;
     static int win_size = 5;
+    static int wait_time = 15;
 }
 
 #endif

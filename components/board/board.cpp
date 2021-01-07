@@ -103,9 +103,7 @@ void Board::recv_chess(QPoint pos, bool is_me){
             int idx = my_pos_list.indexOf(p);
             auto chess = my_chess_list.at(idx);
             chess->setProperty("active", QVariant("t"));
-            chess->style()->unpolish(chess);
-            chess->style()->polish(chess);
-            chess->update();
+            refresh_style(chess);
         }
     }else {
         QVector<QPoint> other_win = check_win(other_pos_list);
@@ -115,14 +113,16 @@ void Board::recv_chess(QPoint pos, bool is_me){
                 int idx = other_pos_list.indexOf(p);
                 auto chess = other_chess_list.at(idx);
                 chess->setProperty("active", QVariant("t"));
-                chess->style()->unpolish(chess);
-                chess->style()->polish(chess);
-                chess->update();
+                refresh_style(chess);
             }
         }
     }
     if (end){
         game_over = true;
+        if (!candidate->isHidden()){
+            candidate->hide();
+        }
+        this->setCursor(Qt::ForbiddenCursor);
     }
 }
 
