@@ -130,7 +130,7 @@ void GameWindow::update_timer() {
     timer_count --;
     (turn_on?my_time:other_time)->setText(std::to_string(timer_count).c_str());
     if (timer_count == 0){
-        delete timer;
+        timer->stop();
     }
 }
 

@@ -9,8 +9,10 @@
 #include <QTcpSocket>
 #include <QTimer>
 #include <QtNetwork/QTcpServer>
+#include <QtWidgets/QLineEdit>
 #include "../../components/utils.h"
 #include "../../components/board/board.h"
+#include "../../components/button/button.h"
 
 class GameWindow : public QWidget{
 Q_OBJECT
@@ -19,7 +21,13 @@ public:
     Board* board;
 
     QFrame* menu;
+
     QFrame* menu_mid;
+    Button* btn_exit;
+
+    QFrame* chat;
+    QLineEdit* input_chat;
+    Button* btn_send_chat;
 
     QFrame* player_me;
     QLabel* my_name;
