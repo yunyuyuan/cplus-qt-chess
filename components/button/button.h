@@ -6,12 +6,9 @@
 
 class Button : public QPushButton{
 public:
-    Button();
     explicit Button(const QString& text, QWidget* parent);
 
     void setupUi();
-
-    const QString &get_qss(const char string[11]);
 };
 
 

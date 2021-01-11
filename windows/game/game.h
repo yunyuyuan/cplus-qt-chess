@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QtNetwork/QTcpServer>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPlainTextEdit>
 #include "../../components/utils.h"
 #include "../../components/board/board.h"
 #include "../../components/button/button.h"
@@ -23,11 +24,12 @@ public:
     QFrame* menu;
 
     QFrame* menu_mid;
-    Button* btn_exit;
 
-    QFrame* chat;
+    QPlainTextEdit* chat_area;
     QLineEdit* input_chat;
     Button* btn_send_chat;
+    
+    Button* btn_exit;
 
     QFrame* player_me;
     QLabel* my_name;
@@ -47,13 +49,15 @@ public:
 
 private:
     void setupUi();
-    void putChess(int, int);
-    void changeTurn(bool);
+    void put_chess(int, int);
+    void send_chat();
+    void change_turn(bool);
     void update_timer();
 signals:
     void open_window();
 private slots:
     void recvMsg();
+    void gameOver(bool);
 };
 
 

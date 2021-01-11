@@ -2,9 +2,7 @@
 #include "button.h"
 #include <QVariant>
 
-Button::Button(const QString& text, QWidget* parent){
-    this->setText(text);
-    this->setParent(parent);
+Button::Button(const QString& text, QWidget* parent):QPushButton(text, parent){
     this->setProperty("class", QVariant("common-button"));
     this->setupUi();
 }

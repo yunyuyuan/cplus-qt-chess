@@ -6,5 +6,7 @@
     border: 1px solid white; }
     #game > .menu > .player[active=t] {
       border: 2px solid #18ffd3; }
+  #game > .menu > .mid > QPlainTextEdit {
+    background: #ffffff; }
 
 /*# sourceMappingURL=game.css.map */

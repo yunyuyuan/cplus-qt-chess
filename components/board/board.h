@@ -33,8 +33,10 @@ public:
     QVector<Chess*> other_chess_list;
 
     void recv_chess(QPoint, bool);
+    void gameover_with_timeout();
 signals:
     void put_chess(int, int);
+    void game_over_event(bool);
 };
 
 #endif //C_BOARD_H

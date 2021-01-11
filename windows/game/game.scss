@@ -16,8 +16,13 @@
 
       }
     }
-    >.time{
+    >.mid{
+      >QPlainTextEdit{
+        background: #ffffff;
+      }
+      >QLineEdit{
 
+      }
     }
   }
 }

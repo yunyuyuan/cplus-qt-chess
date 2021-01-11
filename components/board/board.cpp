@@ -97,8 +97,10 @@ void Board::recv_chess(QPoint pos, bool is_me){
     this->setStyleSheet(get_qss("../components/board/board.css").c_str());
     QVector<QPoint> my_win = check_win(my_pos_list);
     bool end = false;
+    bool i_win = false;
     if (!my_win.empty()){
         end = true;
+        i_win = true;
         for (QPoint p:my_win){
             int idx = my_pos_list.indexOf(p);
             auto chess = my_chess_list.at(idx);
@@ -123,7 +125,16 @@ void Board::recv_chess(QPoint pos, bool is_me){
             candidate->hide();
         }
         this->setCursor(Qt::ForbiddenCursor);
+        emit game_over_event(i_win);
     }
+}
+
+void Board::gameover_with_timeout() {
+    game_over = true;
+    if (!candidate->isHidden()){
+        candidate->hide();
+    }
+    this->setCursor(Qt::ForbiddenCursor);
 }
 
 Board::Board(QWidget *parent):QFrame(parent) {
